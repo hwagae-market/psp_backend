@@ -14,5 +14,6 @@ public abstract class Solution extends BaseEntity{
     private String comment;//해설
 
     @OneToOne
+    @JoinColumn(name = "problem_id")
     private Problem problem;
 }
