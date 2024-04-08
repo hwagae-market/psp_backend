@@ -13,4 +13,5 @@ public class RequestProblemDto {
     private String body;//본문 내용
     private List<Integer> selectorNum;
     private List<String> selectorContent;
+    private RequestSolutionDto solution;
 }

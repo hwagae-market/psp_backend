@@ -1,19 +1,24 @@
 package hwagae.psp.entity;
 
+import hwagae.psp.dto.request.RequestSolutionDto;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
-@DiscriminatorColumn
-public abstract class Solution extends BaseEntity{
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Solution extends BaseEntity{
 
     @Id
     @GeneratedValue
     private Long id;
+    private String correct;
     private String comment;//해설
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "problem_id")
+    @Setter
     private Problem problem;
 }

@@ -1,6 +1,7 @@
 package hwagae.psp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hwagae.psp.dto.request.RequestAnswerDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,4 +27,12 @@ public abstract class Problem{
     @Setter
     @JsonIgnore
     private Workbook workbook;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "problem")
+    @Setter
+    private Solution solution;
+
+    public boolean isRightAnswer(RequestAnswerDto answer) {
+        return solution.getCorrect().equals(answer.getSubmitAnswer());
+    }
 }

@@ -1,6 +1,8 @@
 package hwagae.psp.controller;
 
+import hwagae.psp.dto.request.RequestAnswerListDto;
 import hwagae.psp.dto.request.RequestWorkbookDto;
+import hwagae.psp.dto.response.ResponseAnswerDto;
 import hwagae.psp.dto.response.ResponseWorkbookDto;
 import hwagae.psp.service.WorkbookService;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,11 @@ public class WorkbookApiController {
     public ResponseEntity<ResponseWorkbookDto> getWorkbook(@PathVariable Long id) {
         ResponseWorkbookDto workbookDto = workbookService.findById(id);
         return ResponseEntity.ok(workbookDto);
+    }
+
+    @PostMapping("/answer/submit")
+    public ResponseEntity<ResponseAnswerDto> solvedWorkbook(@RequestBody RequestAnswerListDto answerListDto) {
+        ResponseAnswerDto solvedProblems = workbookService.solvedProblems(answerListDto);
+        return ResponseEntity.ok(solvedProblems);
     }
 }
