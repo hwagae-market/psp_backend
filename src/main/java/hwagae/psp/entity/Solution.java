@@ -21,4 +21,9 @@ public class Solution extends BaseEntity{
     @JoinColumn(name = "problem_id")
     @Setter
     private Problem problem;
+
+    public void update(RequestSolutionDto requestSolutionDto) {
+        this.correct = requestSolutionDto.getCorrect();
+        this.comment = requestSolutionDto.getComment();
+    }
 }

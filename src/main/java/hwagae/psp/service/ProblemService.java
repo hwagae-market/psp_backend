@@ -34,8 +34,9 @@ public class ProblemService {
         return saveSubjectiveProblem(requestProblem, workbook);
     }
 
-    public void updateProblem() {
-
+    public void updateProblem(RequestProblemDto problemDto, Long id) {
+        Optional<Problem> optionalProblem = problemRepository.findById(id);
+        
     }
 
     public boolean solved(RequestAnswerDto answerDto) {

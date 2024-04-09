@@ -28,6 +28,10 @@ public class WorkbookApiController {
         return ResponseEntity.ok(workbookDto);
     }
 
+
+    /**
+     * 문제집 정답 채점
+     */
     @PostMapping("/answer/submit")
     public ResponseEntity<ResponseAnswerDto> solvedWorkbook(@RequestBody RequestAnswerListDto answerListDto) {
         ResponseAnswerDto solvedProblems = workbookService.solvedProblems(answerListDto);

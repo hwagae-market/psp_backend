@@ -4,6 +4,7 @@ import hwagae.psp.dto.request.RequestSolutionDto;
 import hwagae.psp.dto.response.ResponseSolutionDto;
 import hwagae.psp.entity.Problem;
 import hwagae.psp.entity.Solution;
+import hwagae.psp.repository.ProblemRepository;
 import hwagae.psp.repository.SolutionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class SolutionService {
 
     private final SolutionRepository solutionRepository;
+    private final ProblemRepository problemRepository;
 
     public Solution saveSolution(RequestSolutionDto solutionDto, Problem problem) {
         Solution solution = solutionRepository.save(solutionDto.toEntity());
@@ -25,12 +27,25 @@ public class SolutionService {
     }
 
     public ResponseSolutionDto findById(Long id) {
-        Optional<Solution> optionalSolution = solutionRepository.findById(id);
+        Optional<Problem> optionalProblem = problemRepository.findById(id);
 
-        if(optionalSolution.isEmpty())
-            return null;//정답이 등록되지 않는 경우 처리를 어떻게 할까나
+        if(optionalProblem.isEmpty())
+            throw new RuntimeException();
 
-        Solution findSolution = optionalSolution.get();
-        return new ResponseSolutionDto(findSolution);
+        Problem targetProblem = optionalProblem.get();
+        Solution targetProblemSolution = targetProblem.getSolution();
+
+        return new ResponseSolutionDto(targetProblemSolution);
+    }
+
+    public void updateSolution(RequestSolutionDto requestSolutionDto, Long id) {
+        Optional<Problem> optionalProblem = problemRepository.findById(id);
+
+        if(optionalProblem.isEmpty())
+            throw new RuntimeException();
+
+        Problem targetProblem = optionalProblem.get();
+        Solution targetProblemSolution = targetProblem.getSolution();
+        targetProblemSolution.update(requestSolutionDto);
     }
 }
