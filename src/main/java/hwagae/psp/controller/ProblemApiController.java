@@ -2,6 +2,7 @@ package hwagae.psp.controller;
 
 import hwagae.psp.dto.request.RequestAnswerDto;
 import hwagae.psp.dto.request.RequestProblemDto;
+import hwagae.psp.dto.request.UpdateProblemDto;
 import hwagae.psp.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,10 @@ public class ProblemApiController {
         return ResponseEntity.ok("오답입니다.");
     }
 
-    @PostMapping("/update/{id}")
-    public ResponseEntity<String> updateProblem(@RequestBody RequestProblemDto problemDto, @PathVariable Long id) {
-        problemService.updateProblem(problemDto, id);
+    @PostMapping("/update")
+    public ResponseEntity<String> updateProblem(@RequestBody UpdateProblemDto updateProblemDto) {
+        problemService.updateProblem(updateProblemDto);
 
-        return ResponseEntity.ok("수정 완료");
+        return ResponseEntity.ok("업데이트 완료");
     }
 }

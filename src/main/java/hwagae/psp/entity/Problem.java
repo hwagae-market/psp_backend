@@ -2,6 +2,7 @@ package hwagae.psp.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hwagae.psp.dto.request.RequestAnswerDto;
+import hwagae.psp.dto.request.UpdateProblemDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,5 +35,10 @@ public abstract class Problem{
 
     public boolean isRightAnswer(RequestAnswerDto answer) {
         return solution.getCorrect().equals(answer.getSubmitAnswer());
+    }
+
+    protected void updateProblem(UpdateProblemDto updateProblemDto) {
+        header = updateProblemDto.getHeader();
+        body = updateProblemDto.getBody();
     }
 }

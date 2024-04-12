@@ -2,6 +2,7 @@ package hwagae.psp.service;
 
 import hwagae.psp.dto.request.RequestAnswerDto;
 import hwagae.psp.dto.request.RequestProblemDto;
+import hwagae.psp.dto.request.UpdateProblemDto;
 import hwagae.psp.entity.*;
 import hwagae.psp.repository.MultipleProblemRepository;
 import hwagae.psp.repository.ProblemRepository;
@@ -34,9 +35,20 @@ public class ProblemService {
         return saveSubjectiveProblem(requestProblem, workbook);
     }
 
-    public void updateProblem(RequestProblemDto problemDto, Long id) {
-        Optional<Problem> optionalProblem = problemRepository.findById(id);
-        
+    public void updateProblem(UpdateProblemDto problemDto) {
+        Optional<Problem> optionalProblem = problemRepository.findById(problemDto.getId());
+
+        if(optionalProblem.isEmpty())
+            throw new RuntimeException();
+
+        Problem problem = optionalProblem.get();
+
+        if(problem instanceof MultipleProblem) {
+            ((MultipleProblem) problem).updateProblem(problemDto);
+            return;
+        }
+
+        ((SubjectiveProblem) problem).updateProblem(problemDto);
     }
 
     public boolean solved(RequestAnswerDto answerDto) {

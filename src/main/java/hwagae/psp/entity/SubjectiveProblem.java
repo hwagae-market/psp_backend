@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import hwagae.psp.dto.request.UpdateProblemDto;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
@@ -16,5 +17,7 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 @DiscriminatorValue("subjective")
 public class SubjectiveProblem extends Problem {
-
+    public void updateProblem(UpdateProblemDto updateProblemDto) {
+        super.updateProblem(updateProblemDto);
+    }
 }
