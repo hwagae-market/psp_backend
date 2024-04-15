@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -32,6 +34,13 @@ public abstract class Problem{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "problem")
     @Setter
     private Solution solution;
+
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Complain> complainList;
+
+    public void addComplain(Complain complain) {
+        this.complainList.add(complain);
+    }
 
     public boolean isRightAnswer(RequestAnswerDto answer) {
         return solution.getCorrect().equals(answer.getSubmitAnswer());

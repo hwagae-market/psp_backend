@@ -18,11 +18,13 @@ public class Workbook extends BaseEntity{
     @GeneratedValue
     private Long id;
 
+    @ManyToOne
+    private User user;
+
     @OneToMany(mappedBy = "workbook", cascade = CascadeType.ALL, orphanRemoval = true)
     @Setter
     private List<Problem> problemList;
 
     @OneToOne
     private Category category;
-
 }
