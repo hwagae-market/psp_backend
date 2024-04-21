@@ -1,9 +1,6 @@
 package hwagae.psp.entity;
 
-import lombok.Data;
-
-public enum CategoryType {
+public enum MainCategory {
     SCHOOL,
     LICENSE
-    ;
 }

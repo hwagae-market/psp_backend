@@ -6,18 +6,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category extends BaseEntity{
+public class SubCategory{
 
     @Id
     @GeneratedValue
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private CategoryType categoryType;//대분류 카테고리 타입
-    private String name;//카테고리 명
+    private MainCategory mainCategory;
+
+    private String name;
+
+    @OneToMany
+    private List<Problem> problems;
 }

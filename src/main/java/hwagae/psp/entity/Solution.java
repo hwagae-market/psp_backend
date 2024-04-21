@@ -1,6 +1,5 @@
 package hwagae.psp.entity;
 
-import hwagae.psp.dto.request.RequestSolutionDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,21 +8,16 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Solution extends BaseEntity{
+public class Solution{
 
     @Id
     @GeneratedValue
     private Long id;
-    private String correct;
-    private String comment;//해설
+    private String answer;
+    private String comment;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "problem_id")
     @Setter
     private Problem problem;
-
-    public void update(RequestSolutionDto requestSolutionDto) {
-        this.correct = requestSolutionDto.getCorrect();
-        this.comment = requestSolutionDto.getComment();
-    }
 }
