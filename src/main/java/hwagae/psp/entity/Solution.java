@@ -4,6 +4,9 @@ import hwagae.psp.dto.request.RequestSolutionDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+/**
+ * 특정 문제에 대한 정보
+ */
 @Entity
 @Getter
 @NoArgsConstructor

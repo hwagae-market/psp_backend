@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 문제에 대한 신고 정보
+ */
 @Getter
 @Entity
 @NoArgsConstructor

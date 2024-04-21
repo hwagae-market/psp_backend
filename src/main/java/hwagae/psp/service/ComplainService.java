@@ -21,10 +21,11 @@ public class ComplainService {
     private final ComplainRepository complainRepository;
     private final ProblemRepository problemRepository;
 
+    // 특정 문제에 대한 신고 생성
     public void createComplain(RequestComplainDto complainDto) {
         Optional<Problem> optProblem = problemRepository.findById(complainDto.getProblemId());
 
-        if(optProblem.isEmpty())
+        if (optProblem.isEmpty())
             throw new RuntimeException();
 
         Problem problem = optProblem.get();
@@ -37,10 +38,11 @@ public class ComplainService {
         problem.addComplain(complainRepository.save(complain));
     }
 
+    // 문제에 대한 신고 리스트 출력
     public List<ResponseComplainDto> getComplaionList(Long problemId) {
         Optional<Problem> optProblem = problemRepository.findById(problemId);
 
-        if(optProblem.isEmpty())
+        if (optProblem.isEmpty())
             throw new RuntimeException();
 
         Problem problem = optProblem.get();

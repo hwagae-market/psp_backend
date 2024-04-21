@@ -10,7 +10,6 @@ import lombok.Setter;
 /**
  * 오답노트 엔티티
  */
-
 @Entity
 @Getter
 public class AnswerNote {
@@ -20,7 +19,7 @@ public class AnswerNote {
 
     @OneToOne
     @Setter
-    private Problem problem;
+    private Problem problem;//오답노트에 등록한 문제
 
-    private String submit;
+    private String submit;//사용자가 제출한 정보(주관식, 객관식도 String input)
 }

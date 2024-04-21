@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 문제집, 문제 카테고리 정보
+ */
 @Entity
 @Getter
 @NoArgsConstructor
