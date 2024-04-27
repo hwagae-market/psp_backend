@@ -24,7 +24,8 @@ public class User extends BaseEntity {
     private String nickname;
     private String email;
 
-    @OneToMany(mappedBy = "users_id")
+    @OneToMany
+    @JoinColumn(name = "workbook_id")
     @Setter
     private List<Workbook> createWorkbook = new ArrayList<>();
 
@@ -32,13 +33,15 @@ public class User extends BaseEntity {
     @JoinColumn(name = "workbook_id")
     private List<Workbook> scribeWorkbook = new ArrayList<>();
 
-    @OneToMany
-    @Setter
-    @JoinColumn(name = "answer_note_id")
-    private List<AnswerNote> answerNotes = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<OdapNote> odapNoteList = new ArrayList<>();
 
     public void subscribeWorkbook(Workbook workbook) {
         this.scribeWorkbook.add(workbook);
         workbook.setUser(this);
+    }
+
+    public void addOdapNote(OdapNote odapNote) {
+        odapNoteList.add(odapNote);
     }
 }

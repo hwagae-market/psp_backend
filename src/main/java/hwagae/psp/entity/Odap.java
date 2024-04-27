@@ -4,15 +4,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
- * 오답노트 엔티티
+ * 오답노트 문제 & 해설 엔티티
  */
 @Entity
 @Getter
-public class AnswerNote {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
+public class Odap {
     @GeneratedValue
     @Id
     private Long id;
