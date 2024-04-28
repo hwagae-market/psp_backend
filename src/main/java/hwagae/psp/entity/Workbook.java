@@ -16,7 +16,7 @@ import java.util.List;
 public class Workbook extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -27,6 +27,7 @@ public class Workbook extends BaseEntity {
     @Setter
     private List<Problem> problemList;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
 }
