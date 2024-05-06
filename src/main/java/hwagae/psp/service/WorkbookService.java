@@ -5,8 +5,10 @@ import hwagae.psp.dto.request.RequestAnswerListDto;
 import hwagae.psp.dto.request.RequestWorkbookDto;
 import hwagae.psp.dto.response.ResponseAnswerDto;
 import hwagae.psp.dto.response.ResponseWorkbookDto;
+import hwagae.psp.entity.Category;
 import hwagae.psp.entity.Problem;
 import hwagae.psp.entity.Workbook;
+import hwagae.psp.repository.CategoryRepository;
 import hwagae.psp.repository.WorkbookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,19 +25,22 @@ public class WorkbookService {
 
     private final WorkbookRepository workbookRepository;
     private final ProblemService problemService;
+    private final CategoryRepository categoryRepository;
 
     public void saveWorkbook(RequestWorkbookDto workbook) {
-        Workbook saveWorkbook = workbook.toEntity();
-        Workbook saved = workbookRepository.save(saveWorkbook);
+        Category category = categoryRepository.findById(workbook.getCategoryId()).orElseThrow();
+        Workbook saved = Workbook.builder().category(category).build();
+
         List<Problem> problemList
                 = workbook.getProblemList().stream().map(p -> problemService.saveProblem(p, saved)).toList();
 
-        saveWorkbook.setProblemList(problemList);
+
+        saved.setProblemList(problemList);
     }
 
     public ResponseWorkbookDto findById(Long id) {
         Optional<Workbook> optionalWorkbook = workbookRepository.findById(id);
-        if(optionalWorkbook.isEmpty())
+        if (optionalWorkbook.isEmpty())
             throw new RuntimeException();
 
         Workbook workbook = optionalWorkbook.get();
@@ -48,13 +53,12 @@ public class WorkbookService {
         ArrayList<Long> rightProblemNum = new ArrayList<>();
         ArrayList<Long> wrongProblemNum = new ArrayList<>();
 
-        for(RequestAnswerDto answer : answerListDto.getAnswerList()) {
-            if(problemService.solved(answer)) {
+        for (RequestAnswerDto answer : answerListDto.getAnswerList()) {
+            if (problemService.solved(answer)) {
                 rightCnt += 1;
                 rightProblemNum.add(answer.getProblemId());
-            }
-            else {
-                wrongCnt+=1;
+            } else {
+                wrongCnt += 1;
                 wrongProblemNum.add(answer.getProblemId());
             }
         }
@@ -65,5 +69,19 @@ public class WorkbookService {
                 .rightProblemList(rightProblemNum)
                 .wrongProblemList(wrongProblemNum)
                 .build();
+    }
+
+    public List<ResponseWorkbookDto> searchByCategory(String keyword) {
+        Optional<Category> categoryOptional = categoryRepository.findByName(keyword);
+        List<ResponseWorkbookDto> result = new ArrayList<>();
+
+
+        if (categoryOptional.isEmpty())
+            return result;
+
+        List<Workbook> searchResult = workbookRepository.findAllByCategory(categoryOptional.get());
+        result = searchResult.stream().map(ResponseWorkbookDto::new).toList();
+
+        return result;
     }
 }

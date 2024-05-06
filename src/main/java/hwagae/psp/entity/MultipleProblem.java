@@ -1,19 +1,17 @@
 package hwagae.psp.entity;
 
-import hwagae.psp.dto.request.RequestProblemDto;
 import hwagae.psp.dto.request.UpdateProblemDto;
 import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
-import java.util.Map;
 
+/**
+ * 객관식 문제 엔티티
+ */
 @Entity
 @Getter
 @DiscriminatorValue("multiple")
