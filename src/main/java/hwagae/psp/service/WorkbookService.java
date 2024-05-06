@@ -70,4 +70,18 @@ public class WorkbookService {
                 .wrongProblemList(wrongProblemNum)
                 .build();
     }
+
+    public List<ResponseWorkbookDto> searchByCategory(String keyword) {
+        Optional<Category> categoryOptional = categoryRepository.findByName(keyword);
+        List<ResponseWorkbookDto> result = new ArrayList<>();
+
+
+        if (categoryOptional.isEmpty())
+            return result;
+
+        List<Workbook> searchResult = workbookRepository.findAllByCategory(categoryOptional.get());
+        result = searchResult.stream().map(ResponseWorkbookDto::new).toList();
+
+        return result;
+    }
 }

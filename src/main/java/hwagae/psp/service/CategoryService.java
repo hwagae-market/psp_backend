@@ -1,10 +1,13 @@
 package hwagae.psp.service;
 
 import hwagae.psp.dto.request.RequestCategoryDto;
+import hwagae.psp.entity.Category;
 import hwagae.psp.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -15,5 +18,9 @@ public class CategoryService {
 
     public void saveCategory(RequestCategoryDto requestCategory) {
         categoryRepository.save(requestCategory.toEntity());
+    }
+
+    public List<Category> searchByKeyword(String keyword) {
+        return categoryRepository.findAllByNameContaining(keyword);
     }
 }

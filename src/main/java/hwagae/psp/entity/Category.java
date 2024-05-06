@@ -23,5 +23,7 @@ public class Category extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private CategoryType categoryType;//대분류 카테고리 타입
+
+    @Column(unique = true)
     private String name;//카테고리 명
 }
