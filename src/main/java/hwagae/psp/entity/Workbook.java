@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Workbook extends BaseEntity {
 
     @ManyToOne
     @Setter
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "workbook", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -6,6 +6,8 @@ import hwagae.psp.entity.User;
 import hwagae.psp.exception.FailLoginRequestException;
 import hwagae.psp.exception.NoSuchUserException;
 import hwagae.psp.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -79,5 +81,27 @@ public class UserService {
                 .compact();
 
         return jwt;
+    }
+
+    public User parsingJwtToken(String token) {
+        Jws<Claims> claimsJws = Jwts.parserBuilder()
+                .setSigningKey(secretKey.getBytes())
+                .build().parseClaimsJws(token);
+
+
+        String username = claimsJws.getBody().getAudience();
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isEmpty())
+            throw new NoSuchUserException();
+
+        return optionalUser.get();
+    }
+
+    public User findById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+
+        return optionalUser.orElse(null);
+
     }
 }

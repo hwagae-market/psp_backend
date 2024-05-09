@@ -7,15 +7,19 @@ import hwagae.psp.dto.response.ResponseAnswerDto;
 import hwagae.psp.dto.response.ResponseWorkbookDto;
 import hwagae.psp.entity.Category;
 import hwagae.psp.entity.Problem;
+import hwagae.psp.entity.User;
 import hwagae.psp.entity.Workbook;
 import hwagae.psp.repository.CategoryRepository;
 import hwagae.psp.repository.WorkbookRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -26,6 +30,7 @@ public class WorkbookService {
     private final WorkbookRepository workbookRepository;
     private final ProblemService problemService;
     private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
     public void saveWorkbook(RequestWorkbookDto workbook) {
         Category category = categoryRepository.findById(workbook.getCategoryId()).orElseThrow();
@@ -83,5 +88,40 @@ public class WorkbookService {
         result = searchResult.stream().map(ResponseWorkbookDto::new).toList();
 
         return result;
+    }
+
+    /**
+     * 사용자가 문제집을 구독
+     *
+     * @param id       - 대상 워크북 번호
+     * @param request  - 인증 토큰을 헤더에서 받음
+     * @param response
+     */
+    public void subscribe(Long id, HttpServletRequest request, HttpServletResponse response) {
+        String jwtToken = request.getHeader("X-AUTH-TOKEN");
+        User user = userService.parsingJwtToken(jwtToken);
+
+        Optional<Workbook> optionalWorkbook = workbookRepository.findById(id);
+
+        if (optionalWorkbook.isEmpty())
+            throw new NoSuchElementException();
+
+
+        user.subscribeWorkbook(optionalWorkbook.get());
+    }
+
+    /**
+     * 문제집 구독 취소 기능
+     *
+     * @param user - 대상 유저
+     * @param id   - 제거할 문제집 번호
+     */
+    public void disSubscribe(User user, Long id) {
+        Optional<Workbook> optWorkbook = workbookRepository.findById(id);
+        if (optWorkbook.isEmpty())
+            throw new NoSuchElementException();
+
+        Workbook workbook = optWorkbook.get();
+        user.getScribeWorkbook().remove(workbook);
     }
 }
