@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class OdapNote {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private User user;//소유자
 
     @OneToMany

@@ -3,6 +3,7 @@ package hwagae.psp.controller;
 import hwagae.psp.config.annotation.RequiredAuthenticate;
 import hwagae.psp.dto.request.LoginUserDto;
 import hwagae.psp.dto.request.RegisterUserDto;
+import hwagae.psp.entity.User;
 import hwagae.psp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -36,5 +37,10 @@ public class UserController {
     @RequiredAuthenticate
     public ResponseEntity<String> loginTest(HttpServletResponse response, HttpServletRequest request) {
         return ResponseEntity.ok("로그인 성공 완료");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.findById(id));
     }
 }

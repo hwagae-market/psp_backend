@@ -1,8 +1,12 @@
 package hwagae.psp.controller;
 
+import hwagae.psp.config.annotation.RequiredAuthenticate;
 import hwagae.psp.dto.request.RequestOdapNoteDto;
 import hwagae.psp.dto.response.ResponseOdapNoteDto;
 import hwagae.psp.service.OdapNoteService;
+import hwagae.psp.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,7 @@ import java.util.List;
 public class OdapApiController {
 
     private final OdapNoteService odapNoteService;
+    private final UserService userService;
 
     /**
      * 사용자가 등록한 전체 오답노트 정보를 출력
@@ -43,10 +48,25 @@ public class OdapApiController {
         return ResponseEntity.ok(odapNoteService.findOdapNoteById(id));
     }
 
+    /**
+     * 오답노트 생성 요청
+     *
+     * @param odapNote - 생성할 오답노트 정보
+     * @return
+     */
     @PostMapping
     public ResponseEntity<String> createOdapNote(@RequestBody RequestOdapNoteDto odapNote) {
         odapNoteService.saveOdapNote(odapNote);
 
         return ResponseEntity.ok("오답노트가 생성되었습니다.");
     }
+
+    @GetMapping("/remove/note")
+    @RequiredAuthenticate
+    public ResponseEntity<String> removeOdapNote(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+        odapNoteService.removeOdapNote(userService.parsingJwtToken(request.getHeader("X-AUTH-TOKEN")), id);
+
+        return ResponseEntity.ok("오답노트가 제거되었습니다.");
+    }
+
 }

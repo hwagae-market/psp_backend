@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,11 @@ public class OdapNoteService {
     private final UserRepository userRepository;
     private final ProblemRepository problemRepository;
 
+    /**
+     * 오답노트를 생성
+     *
+     * @param odapNoteDto - 입력한 오답노트 정보
+     */
     public void saveOdapNote(RequestOdapNoteDto odapNoteDto) {
         Optional<User> optUser = userRepository.findById(odapNoteDto.getUserId());
 
@@ -67,5 +73,21 @@ public class OdapNoteService {
         List<OdapNote> odapNoteList = user.getOdapNoteList();
 
         return odapNoteList.stream().map(ResponseOdapNoteDto::new).toList();
+    }
+
+    /**
+     * 사용자가 저장한 오답노트를 제거
+     *
+     * @param user - 대상 사용자
+     * @param id   - 대상 오답노트 PK
+     */
+    public void removeOdapNote(User user, Long id) {
+        Optional<OdapNote> optionalOdapNote = odapNoteRepository.findById(id);
+
+        if (optionalOdapNote.isEmpty())
+            throw new NoSuchElementException();
+
+        OdapNote odapNote = optionalOdapNote.get();
+        user.getOdapNoteList().remove(odapNote);
     }
 }

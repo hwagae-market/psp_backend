@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hwagae.psp.dto.request.RequestSolutionDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Solution extends BaseEntity{
+public class Solution extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -22,6 +23,7 @@ public class Solution extends BaseEntity{
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "problem_id")
+    @JsonIgnore
     @Setter
     private Problem problem;
 

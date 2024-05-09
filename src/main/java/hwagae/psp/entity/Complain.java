@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +24,6 @@ public class Complain {
     private String detail;//자세한 신고 내용
 
     @ManyToOne
+    @JsonIgnore
     private Problem problem;
 }

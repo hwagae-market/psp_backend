@@ -1,10 +1,14 @@
 package hwagae.psp.controller;
 
+import hwagae.psp.config.annotation.RequiredAuthenticate;
 import hwagae.psp.dto.request.RequestAnswerListDto;
 import hwagae.psp.dto.request.RequestWorkbookDto;
 import hwagae.psp.dto.response.ResponseAnswerDto;
 import hwagae.psp.dto.response.ResponseWorkbookDto;
+import hwagae.psp.service.UserService;
 import hwagae.psp.service.WorkbookService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +21,7 @@ import java.util.List;
 public class WorkbookApiController {
 
     private final WorkbookService workbookService;
+    private final UserService userService;
 
     @PostMapping("/save")
     public ResponseEntity<String> saveWorkbook(@RequestBody RequestWorkbookDto workbookDto) {
@@ -45,5 +50,21 @@ public class WorkbookApiController {
     public ResponseEntity<ResponseAnswerDto> solvedWorkbook(@RequestBody RequestAnswerListDto answerListDto) {
         ResponseAnswerDto solvedProblems = workbookService.solvedProblems(answerListDto);
         return ResponseEntity.ok(solvedProblems);
+    }
+
+    @RequiredAuthenticate
+    @GetMapping("/subscribe")
+    public ResponseEntity<String> subscribeWorkbook(@RequestParam Long id, HttpServletResponse response, HttpServletRequest request) {
+        workbookService.subscribe(id, request, response);
+
+        return ResponseEntity.ok("구독 성공");
+    }
+
+    @RequiredAuthenticate
+    @GetMapping("/cancel/subscribe")
+    public ResponseEntity<String> disScribeWorkBook(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) {
+        workbookService.disSubscribe(userService.parsingJwtToken(request.getHeader("X-AUTH-TOKEN")), id);
+
+        return ResponseEntity.ok("구독 취소 완료");
     }
 }
