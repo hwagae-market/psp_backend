@@ -1,6 +1,7 @@
 package hwagae.psp.controller;
 
 import hwagae.psp.dto.request.RequestCategoryDto;
+import hwagae.psp.dto.response.ResponseCategoryDto;
 import hwagae.psp.entity.Category;
 import hwagae.psp.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,12 @@ public class CategoryApiController {
         List<Category> searchResult = categoryService.searchByKeyword(keyword);
 
         return ResponseEntity.ok(searchResult);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<ResponseCategoryDto>> getCategoryList() {
+        List<ResponseCategoryDto> categoryList = categoryService.findAll();
+
+        return ResponseEntity.ok(categoryList);
     }
 }

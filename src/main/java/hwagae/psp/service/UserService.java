@@ -2,6 +2,7 @@ package hwagae.psp.service;
 
 import hwagae.psp.dto.request.LoginUserDto;
 import hwagae.psp.dto.request.RegisterUserDto;
+import hwagae.psp.dto.request.RequestUpdateUserDto;
 import hwagae.psp.entity.User;
 import hwagae.psp.exception.FailLoginRequestException;
 import hwagae.psp.exception.NoSuchUserException;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -103,5 +105,17 @@ public class UserService {
 
         return optionalUser.orElse(null);
 
+    }
+
+    public void updateUser(HttpServletRequest request, RequestUpdateUserDto updateUser) {
+        User user = parsingJwtToken(request.getHeader("X-AUTH-TOKEN"));
+
+        if (!updateUser.getPassword().isEmpty() && !updateUser.getPassword().isBlank()) {
+            String endPassword = encoder.encode(updateUser.getPassword());
+            updateUser.setPassword(endPassword);
+        }
+
+        user.updateInfo(updateUser);
+        userRepository.save(user);
     }
 }
