@@ -84,8 +84,7 @@ BACKEND
 <br>
 
 ## 💾 ERD
-
-![다풀어](https://www.erdcloud.com/d/KKEhozeLcvBxmsZNC)
+- https://www.erdcloud.com/d/KKEhozeLcvBxmsZNC
 
 <br>
 
