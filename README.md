@@ -48,10 +48,6 @@
 <tr>
 <th align="center">
 <img width="384" height="1">
-<p>Front-End</p>
-</th>
-<th align="center">
-<img width="384" height="1">
 <p>Back-End</p>
 </th>
 </tr>
