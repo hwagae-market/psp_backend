@@ -1,6 +1,7 @@
 package hwagae.psp.service;
 
 import hwagae.psp.dto.request.RequestCategoryDto;
+import hwagae.psp.dto.response.ResponseCategoryDto;
 import hwagae.psp.entity.Category;
 import hwagae.psp.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,11 @@ public class CategoryService {
 
     public List<Category> searchByKeyword(String keyword) {
         return categoryRepository.findAllByNameContaining(keyword);
+    }
+
+    public List<ResponseCategoryDto> findAll() {
+        List<Category> categories = categoryRepository.findAll();
+
+        return categories.stream().map(ResponseCategoryDto::new).toList();
     }
 }

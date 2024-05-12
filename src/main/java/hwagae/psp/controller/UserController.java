@@ -3,6 +3,7 @@ package hwagae.psp.controller;
 import hwagae.psp.config.annotation.RequiredAuthenticate;
 import hwagae.psp.dto.request.LoginUserDto;
 import hwagae.psp.dto.request.RegisterUserDto;
+import hwagae.psp.dto.request.RequestUpdateUserDto;
 import hwagae.psp.entity.User;
 import hwagae.psp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,5 +43,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @PostMapping("/update")
+    @RequiredAuthenticate
+    public ResponseEntity<String> updateUserInfo(@RequestBody RequestUpdateUserDto updateUser, HttpServletRequest request, HttpServletResponse response) {
+        userService.updateUser(request, updateUser);
+
+        return ResponseEntity.ok("정보 업데이트 완료");
     }
 }

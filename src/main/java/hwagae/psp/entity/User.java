@@ -1,5 +1,6 @@
 package hwagae.psp.entity;
 
+import hwagae.psp.dto.request.RequestUpdateUserDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,5 +48,15 @@ public class User extends BaseEntity {
 
     public void addOdapNote(OdapNote odapNote) {
         odapNoteList.add(odapNote);
+    }
+
+    public void updateInfo(RequestUpdateUserDto updateUser) {
+        if (!updateUser.getNickname().isEmpty() && !updateUser.getNickname().isBlank()) {
+            this.nickname = updateUser.getNickname();
+        }
+
+        if (!updateUser.getEmail().isEmpty() && !updateUser.getEmail().isBlank()) {
+            this.email = updateUser.getEmail();
+        }
     }
 }
