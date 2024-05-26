@@ -86,6 +86,10 @@ BACKEND
 ## 💾 ERD
 - https://www.erdcloud.com/d/KKEhozeLcvBxmsZNC
 
+## 💾 API
+- https://delightful-path-ef9.notion.site/API-36d2c8c8a6e54bf4825d79685a2ca1e0?pvs=4
+
 <br>
 
 ## 📌 더보기
+
